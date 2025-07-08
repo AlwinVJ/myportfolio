@@ -58,7 +58,7 @@ const Skills = () => {
     {
       title: 'Programming Languages',
       skills: [
-        { name: 'Python', logoPath: '/logos/python.png' },
+        { name: 'Python', logoPath: 'logos/python.png' },
         { name: 'R', logoPath: '/logos/r.png' },
         { name: 'C', logoPath: 'logos/c.png'},
         { name: 'JavaScript', logoPath: '/logos/javascript.png' },
