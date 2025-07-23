@@ -63,7 +63,7 @@ const Skills = () => {
         { name: 'C', logoPath: 'logos/c.png'},
         { name: 'JavaScript', logoPath: 'logos/javascript.png' },
         { name: 'Java', logoPath: 'logos/java.png' },
-        { name: 'SQL', logoPath: 'logos/sql.png' },
+        { name: 'Dart', logoPath: 'logos/dart.png'}
       ],
     },
     {
@@ -97,6 +97,27 @@ const Skills = () => {
         { name: 'Tableau', logoPath: 'logos/tableau.png' },
         { name: 'Power BI', logoPath: 'logos/powerbi.png' },
         { name: 'Jupyter', logoPath: 'logos/jupyter.png' },
+      ],
+    },
+    {
+      title: 'Full-stack Frameworks & Libraries',
+      skills: [
+        { name: 'Django', logoPath: 'logos/django.png' },
+        { name: 'Flask', logoPath: 'logos/flask.png' },
+        { name: 'Flutter', logoPath: 'logos/flutter.png' },
+        { name: 'Streamlit', logoPath: 'logos/streamlit.png' },
+        { name: 'React', logoPath: 'logos/react.png' },
+        { name: 'Next', logoPath: 'logos/next.png' },
+        
+      ],
+    },
+    {
+      title: 'Databases & Storage',
+      skills: [
+        { name: 'SQL', logoPath: 'logos/sql.png' },
+        { name: 'PostgreSQL', logoPath: 'logos/postgresql.png' },
+        { name: 'MongoDB', logoPath: 'logos/mongodb.png' },
+        { name: 'SQLite', logoPath: 'logos/sqlite.png' },
       ],
     },
   ];
