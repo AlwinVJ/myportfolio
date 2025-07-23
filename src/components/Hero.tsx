@@ -1,11 +1,55 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { ChevronDown, Github, Linkedin, Mail } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { ChevronDown, Github, Linkedin, Mail } from "lucide-react";
 
-const Hero = () => {
+const roles = [
+  "AI Engineer",
+  "ML Engineer",
+  "Backend Developer",
+];
+
+export default function AnimatedHeader() {
+  const [text, setText] = useState("");
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [useAn, setUseAn] = useState(false); // for "a" or "an"
+
+  useEffect(() => {
+    const currentRole = roles[roleIndex];
+    const firstChar = currentRole.trim()[0].toLowerCase();
+
+    // Check if we need "an" (vowel sound)
+    const needsAn = ["a", "e", "i", "o", "u"].includes(firstChar);
+    setUseAn(needsAn);
+
+    let typingSpeed = isDeleting ? 50 : 120; // typing speed
+
+    const typeTimeout = setTimeout(() => {
+      if (!isDeleting && charIndex < currentRole.length) {
+        setText(currentRole.substring(0, charIndex + 1));
+        setCharIndex(charIndex + 1);
+      } else if (isDeleting && charIndex > 0) {
+        setText(currentRole.substring(0, charIndex - 1));
+        setCharIndex(charIndex - 1);
+      } else if (!isDeleting && charIndex === currentRole.length) {
+        // pause at end
+        setTimeout(() => setIsDeleting(true), 1500);
+      } else if (isDeleting && charIndex === 0) {
+        setIsDeleting(false);
+        setRoleIndex((roleIndex + 1) % roles.length);
+      }
+    }, typingSpeed);
+
+    return () => clearTimeout(typeTimeout);
+  }, [charIndex, isDeleting, roleIndex]);
+
   return (
-    <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      {/* Animated Background Elements */}
+    <section
+      id="hero"
+      className="min-h-screen flex items-center justify-center relative overflow-hidden"
+    >
+      {/* Background animation */}
       <div className="absolute inset-0">
         {[...Array(20)].map((_, i) => (
           <motion.div
@@ -41,93 +85,29 @@ const Hero = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            I'm an AI/ML Engineer
+            I&apos;m{" "}
+            <span className="text-white">
+              a{useAn ? "n" : ""}
+            </span>{" "}
+            <span className="text-indigo-400 border-r-2 border-indigo-400 pr-1 animate-blink">
+              {text}
+            </span>
           </motion.h1>
-          
+
           <motion.p
             className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Transforming data into intelligent solutions through cutting-edge machine learning 
-            and artificial intelligence technologies
+            Transforming data into intelligent solutions through cutting-edge
+            machine learning and artificial intelligence technologies
           </motion.p>
 
-          <motion.div
-            className="flex justify-center space-x-6 mb-12"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            <motion.a
-              href="#contact"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-gray-600 hover:bg-gray-500 text-white px-8 py-3 rounded-full font-semibold transition-all duration-200 shadow-lg hover:shadow-xl"
-            >
-              Get In Touch
-            </motion.a>
-            <motion.a
-              href="#projects"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-gray-600 hover:bg-gray-500 text-white px-8 py-3 rounded-full font-semibold transition-all duration-200 shadow-lg hover:shadow-xl"
-            >
-              View Projects
-            </motion.a>
-          </motion.div>
-
-          <motion.div
-            className="flex justify-center space-x-6"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-          >
-            <motion.a
-              href="https://github.com/AlwinVJ/dashboard"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.2, rotate: 360 }}
-              className="text-gray-400 hover:text-white transition-colors duration-200"
-            >
-              <Github size={24} />
-            </motion.a>
-            <motion.a
-              href="https://linkedin.com/in/alwinvj"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.2, rotate: 360 }}
-              className="text-gray-400 hover:text-white transition-colors duration-200"
-            >
-              <Linkedin size={24} />
-            </motion.a>
-            <motion.a
-              href="mailto:alwinvj5@gmail.com"
-              whileHover={{ scale: 1.2, rotate: 360 }}
-              className="text-gray-400 hover:text-white transition-colors duration-200"
-            >
-              <Mail size={24} />
-            </motion.a>
-          </motion.div>
-
-          <motion.div
-            className="flex justify-center mt-12"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.0 }}
-          >
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              <ChevronDown className="text-white/60" size={32} />
-            </motion.div>
-          </motion.div>
+          {/* Buttons and Social Links */}
+          {/* ... keep the rest of your existing code ... */}
         </motion.div>
       </div>
     </section>
   );
-};
-
-export default Hero;
+}
