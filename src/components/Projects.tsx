@@ -14,12 +14,12 @@ const Projects = () => {
 
   const projects = [
     {
-      title: 'AI-Powered Medical Diagnosis System',
-      description: 'Deep learning model for medical image analysis with 95% accuracy in detecting anomalies. Deployed in production serving healthcare professionals.',
-      image: 'https://images.pexels.com/photos/3825581/pexels-photo-3825581.jpeg?auto=compress&cs=tinysrgb&w=800',
-      technologies: ['Python', 'TensorFlow', 'OpenCV', 'Flask', 'Docker'],
-      github: 'https://github.com',
-      demo: 'https://demo.com',
+      title: 'AI-Powered Resume Analyzing System',
+      description: 'An AI‑powered resume analyzer and applicant tracking system that allows users to upload resumes, track applicants, and generate feedback with AI assistance',
+      image: 'https://d1civoyjepycei.cloudfront.net/static/img/meta/meta-analytics.115b05c7850e.png',
+      technologies: ['Javascript', 'React', 'Puter', 'OpenAI',],
+      github: 'https://github.com/AlwinVJ/ai-resume-analyzer.git',
+      // demo: 'https://demo.com',
       featured: true,
     },
     {
