@@ -13,7 +13,7 @@ const Footer = () => {
           className="text-center"
         >
           <p className="text-gray-400 flex items-center justify-center space-x-2">
-            <span>© 2025 My Portfolio. Made with</span>
+            <span>© 2025 Portfolio of Alwin V.J. Made with</span>
             <motion.div
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ duration: 1, repeat: Infinity }}

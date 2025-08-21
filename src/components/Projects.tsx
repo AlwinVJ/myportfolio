@@ -23,12 +23,12 @@ const Projects = () => {
       featured: true,
     },
     {
-      title: 'Natural Language Processing Chatbot',
-      description: 'Intelligent conversational AI using transformer architecture. Handles customer support queries with 90% satisfaction rate.',
-      image: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800',
-      technologies: ['Python', 'PyTorch', 'Hugging Face', 'FastAPI', 'Redis'],
-      github: 'https://github.com',
-      demo: 'https://demo.com',
+      title: 'AI Powered ChatBot',
+      description: 'AI-powered virtual assistant designed to understand user queries and provide relevant, conversational responses across a wide range of topics.',
+      image: 'https://static.vecteezy.com/system/resources/previews/022/429/751/non_2x/neural-network-natural-language-processing-algorithm-chat-bot-modern-banner-ai-chatbot-technology-and-artificial-general-intelligence-concept-for-seamless-digital-communication-vector.jpg',
+      technologies: ['Python', 'Streamlit', 'OpenAI'],
+      github: 'https://github.com/AlwinVJ/aichatbot',
+      demo: 'https://aichatassistant.streamlit.app/',
       featured: true,
     },
     {
