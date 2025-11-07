@@ -66,7 +66,7 @@ const Education = () => {
                 <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-6">
                   <div className="flex-1">
                     <div className="flex items-center mb-2">
-                      <GraduationCap className="text-primary-400 mr-3" size={24} />
+                      <GraduationCap className="text-primary-400 mr-3 !w-9 !h-9 sm:!w-14 sm:!h-12 md:!w-12 md:!h-12 lg:!w-14 lg:!h-14" strokeWidth={1.5}/>
                       <h3 className="text-2xl font-bold text-white">
                         {edu.degree}
                       </h3>

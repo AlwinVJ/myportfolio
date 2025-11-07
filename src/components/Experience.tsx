@@ -69,7 +69,7 @@ const Experience = () => {
                 <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-6">
                   <div className="flex-1">
                     <div className="flex items-center mb-2">
-                      <Briefcase className="text-primary-400 mr-3" size={24} />
+                      <Briefcase className="text-primary-400 mr-3 !w-8 !h-8 sm:!w-10 sm:!h-10 md:!w-12 md:!h-12 lg:!w-12 lg:!h-12" strokeWidth={1.5}/>
                       <h3 className="text-2xl font-bold text-white">
                         {exp.title}
                       </h3>
