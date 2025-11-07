@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Mail, Phone, MapPin, Send, Github, Linkedin, Twitter } from 'lucide-react';
+import emailjs from "@emailjs/browser";
+import { Mail, Phone, MapPin, Send, Github, Linkedin } from 'lucide-react';
 
 const Contact = () => {
   const [ref, inView] = useInView({
@@ -16,6 +17,9 @@ const Contact = () => {
     message: '',
   });
 
+  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  // handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
@@ -23,10 +27,25 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // handle form submission (EmailJS integration)
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
+
+    const serviceId = "service_e6htlee";
+    const templateId = "template_wpep5ni";
+    const publicKey = "rmbWLs98fPVVJsHH_";
+
+    emailjs.send(serviceId, templateId, formData, publicKey)
+      .then(() => {
+        setStatus("success");
+        setFormData({ name: "", email: "", subject: "", message: "" });
+        setTimeout(() => setStatus("idle"), 4000); // Hide after 4 s
+      })
+      .catch((error) => {
+        console.error("❌ Error sending email:", error);
+        setStatus("error");
+        setTimeout(() => setStatus("idle"), 4000);
+      });
   };
 
   const contactInfo = [
@@ -34,7 +53,7 @@ const Contact = () => {
       icon: Mail,
       title: 'Email',
       value: 'alwinvj5@gmail.com',
-      href: 'alwinvj5@gmail.com',
+      href: 'mailto:alwinvj5@gmail.com',
     },
     {
       icon: MapPin,
@@ -77,7 +96,7 @@ const Contact = () => {
             <h3 className="text-2xl font-bold text-white mb-8">
               Contact Information
             </h3>
-            
+
             <div className="space-y-6 mb-8">
               {contactInfo.map((info, index) => (
                 <motion.a
@@ -86,8 +105,7 @@ const Contact = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={inView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.5, delay: 0.3 + (index * 0.1) }}
-                  className="flex items-center space-x-4 p-4 bg-gray-800 rounded-lg border border-gray-700 hover:border-primary-500 transition-all duration-300 group"
-                >
+                  className="flex items-center space-x-4 p-4 bg-gray-800 rounded-lg border border-gray-700 hover:border-primary-500 transition-all duration-300 group">
                   <div className="w-12 h-12 bg-primary-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
                     <info.icon className="text-white" size={20} />
                   </div>
@@ -162,7 +180,7 @@ const Contact = () => {
                   />
                 </div>
               </div>
-              
+
               <div>
                 <label htmlFor="subject" className="block text-white font-medium mb-2">
                   Subject
@@ -178,7 +196,7 @@ const Contact = () => {
                   placeholder="Project Discussion"
                 />
               </div>
-              
+
               <div>
                 <label htmlFor="message" className="block text-white font-medium mb-2">
                   Message
@@ -191,19 +209,30 @@ const Contact = () => {
                   required
                   rows={6}
                   className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-primary-500 focus:outline-none transition-colors duration-200 resize-none"
-                  placeholder="Tell me about your project..."
+                  placeholder="Tell me what would you like to discuss about..."
                 />
               </div>
-              
+
               <motion.button
                 type="submit"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full bg-gray-600 hover:bg-gray-500 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl"
-              >
+                className="w-full bg-gray-600 hover:bg-gray-500 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl">
                 <Send size={20} />
                 <span>Send Message</span>
               </motion.button>
+              {/* ✅ Success / Error message */}
+              {status === "success" && (
+                <p className="mt-3 text-green-400 text-center font-medium animate-fadeIn">
+                  ✅ Your message has been sent successfully!
+                </p>
+              )}
+
+              {status === "error" && (
+                <p className="mt-3 text-red-400 text-center font-medium animate-fadeIn">
+                  ❌ Oops! Something went wrong. Please try again.
+                </p>
+              )}
             </form>
           </motion.div>
         </div>
