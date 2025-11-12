@@ -18,28 +18,73 @@ const Contact = () => {
   });
 
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  // handle input changes
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  //Validate form fields
+  const validateForm = () => {
+    const newErrors: { [key: string]: string } = {};
+
+    const trimmedName = formData.name.trim();
+    const trimmedEmail = formData.email.trim();
+    const trimmedSubject = formData.subject.trim();
+    const trimmedMessage = formData.message.trim();
+
+    // Check for empty or whitespace-only
+    if (!trimmedName) newErrors.name = "Name cannot be empty or spaces only.";
+    if (!trimmedSubject) newErrors.subject = "Subject cannot be empty or spaces only.";
+    if (!trimmedMessage) newErrors.message = "Message cannot be empty or spaces only.";
+
+    // Basic email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!trimmedEmail) {
+      newErrors.email = "Email is required.";
+    } else if (!emailRegex.test(trimmedEmail)) {
+      newErrors.email = "Please enter a valid email (e.g. user@email.com).";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
-  // handle form submission (EmailJS integration)
+
+
+  //handling the changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    // Clear error for the field as user starts typing
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    //Validate before sending
+    const isValid = validateForm();
+    if (!isValid) {
+      setStatus("error");
+      console.warn("Form validation failed — email not sent.");
+      setTimeout(() => setStatus("idle"), 4000);
+      return;
+    }
 
     const serviceId = "service_e6htlee";
     const templateId = "template_wpep5ni";
     const publicKey = "rmbWLs98fPVVJsHH_";
 
-    emailjs.send(serviceId, templateId, formData, publicKey)
+    emailjs
+      .send(serviceId, templateId, formData, publicKey)
       .then(() => {
         setStatus("success");
         setFormData({ name: "", email: "", subject: "", message: "" });
-        setTimeout(() => setStatus("idle"), 4000); // Hide after 4 s
+        setErrors({});
+        setTimeout(() => setStatus("idle"), 4000);
       })
       .catch((error) => {
         console.error("❌ Error sending email:", error);
@@ -47,6 +92,7 @@ const Contact = () => {
         setTimeout(() => setStatus("idle"), 4000);
       });
   };
+
 
   const contactInfo = [
     {
